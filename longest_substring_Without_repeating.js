@@ -58,3 +58,34 @@ it("should give me 2 with 'au'", () => {
 it("should give me 3 with 'dvdf'", () => {
   expect(lengthOfLongestSubstring("dvdf")).toEqual(3);
 });
+
+// better approach
+var lengthOfLongestSubstring2 = function (s) {
+  let maxLength = 0;
+  let currentLength = 0;
+  const seenChars = new Map();
+  let windowStart = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    const currentChar = s[i];
+
+    // If we've seen this character within our current window
+    if (
+      seenChars.has(currentChar) &&
+      seenChars.get(currentChar) >= windowStart
+    ) {
+      // Move window start past the previous occurrence
+      windowStart = seenChars.get(currentChar) + 1;
+      // Update current length based on new window size
+      currentLength = i - windowStart + 1;
+    } else {
+      currentLength++;
+    }
+
+    // Update last seen index
+    seenChars.set(currentChar, i);
+    maxLength = Math.max(maxLength, currentLength);
+  }
+
+  return maxLength;
+};
