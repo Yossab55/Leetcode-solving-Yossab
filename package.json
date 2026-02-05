@@ -1,0 +1,23 @@
+{
+  "name": "leetcode-solving-yossab",
+  "version": "1.0.0",
+  "description": "Solving problems in leetcode by JS",
+  "main": "addTwoSum.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yossab55/Leetcode-solving-Yossab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yossab55/Leetcode-solving-Yossab/issues"
+  },
+  "homepage": "https://github.com/Yossab55/Leetcode-solving-Yossab#readme",
+  "dependencies": {
+    "vitest": "^4.0.18"
+  }
+}
