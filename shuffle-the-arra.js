@@ -7,7 +7,6 @@
 var shuffle = function (nums, n) {
   const x = nums.splice(0, n);
   const result = [];
-  console.log(x, nums);
 
   for (let i = 0; i < n; i++) {
     result.push(x[i]);
