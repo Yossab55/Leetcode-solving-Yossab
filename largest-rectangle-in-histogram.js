@@ -4,73 +4,37 @@
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-  const result = Array.from(heights);
+  let maxArea = 0;
   const stack = [];
-  let rectangleArea = 0;
-  for (let i = 0; i < heights.length; i++) {
-    let minimumHight = Infinity;
-    while (stack.length > 0 && heights[i] >= heights[stack[stack.length - 1]]) {
-      const index = stack.pop();
-      const indexHight = heights[index];
-      //If hight = 0 then if you cont this column are will be zero so we should stop it
-      if (indexHight == 0) {
-        stack.push(index);
-        break;
-      }
-      const currentHight = heights[i];
-      const minHight = Math.min(indexHight, currentHight, minimumHight); // if the width is longer than 2 you will need to chick minimumHight
-      const widthBetweenThem = i - index + 1; //+1 because the column it self
-
-      const area = minHight * widthBetweenThem;
-
-      if (area >= rectangleArea) {
-        rectangleArea = area;
-        minimumHight = minHight;
-      }
+  let i = 0;
+  while (i < heights.length) {
+    if (stack.length == 0 || heights[i] >= heights[stack[stack.length - 1]]) {
+      stack.push(i);
+      i++;
+    } else {
+      const top = stack.pop();
+      const left = stack.length == 0 ? -1 : stack[stack.length - 1]; //first -1 because it will be the last element
+      const right = i;
+      const area = heights[top] * (right - left - 1);
+      maxArea = Math.max(area, maxArea);
     }
-    stack.push(i);
   }
-  // //reset the stack
-  // stack.splice(0);
-  // let widthBetweenThem = 1;
-  // for (let i = 0; i < heights.length; i++) {
-  //   let minimumHight = Infinity;
-  //   while (stack.length > 0 && heights[i] < heights[stack[stack.length - 1]]) {
-  //     const index = stack.pop();
-  //     const indexHight = heights[index];
-  //     //If hight = 0 then if you cont this column are will be zero so we should stop it
-  //     if (indexHight == 0) {
-  //       stack.push(index);
-  //       break;
-  //     }
 
-  //     const currentHight = heights[i];
-  //     const minHight = Math.min(indexHight, currentHight, minimumHight); // if the width is longer than 2 you will need to chick minimumHight
-  //     if (i - 1 != index) {
-  //       widthBetweenThem = i - index + 1; //+1 because the column it self
-  //     } else widthBetweenThem++;
-
-  //     const area = minHight * widthBetweenThem;
-
-  //     if (area >= rectangleArea) {
-  //       rectangleArea = area;
-  //       minimumHight = minHight;
-  //     }
-  //   }
-  //   stack.push(i);
-  // }
-
-  if (rectangleArea == 0) rectangleArea = Math.max(...heights);
-
-  return rectangleArea;
+  while (stack.length) {
+    const top = stack.pop();
+    //i here because you're going from right to left so i is the right boundary
+    const width = stack.length == 0 ? i : i - stack[stack.length - 1] - 1;
+    const area = heights[top] * width;
+    maxArea = Math.max(area, maxArea);
+  }
+  return maxArea;
 };
-// console.log(`area: ${area}, minHight: ${minHight}, width: ${widthBetweenThem}`,);
 
-console.log(largestRectangleArea([2, 1, 5, 6, 2, 3]));
+console.log(largestRectangleArea([2, 8, 5, 6, 2, 3]));
 console.log(largestRectangleArea([2, 4]));
 console.log(largestRectangleArea([1, 1]));
 console.log(largestRectangleArea([4, 2]));
 console.log(largestRectangleArea([2, 0, 2]));
 console.log(largestRectangleArea([2, 1, 2]));
-
-console.log(largestRectangleArea([10, 8, 7])); //what you will do in this case :)
+console.log(largestRectangleArea([10, 8, 10, 8]));
+console.log(largestRectangleArea([5, 4, 1, 2]));
